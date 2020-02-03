@@ -7,11 +7,11 @@ provider:
   region: eu-west-2
 
 functions:
-  hello:
+  tasksAWS:
     handler: handler.tasks
     events:
      - http:
-         path: tasks
+         path: tasksURL
          method: get
          cors: true
 

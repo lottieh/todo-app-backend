@@ -6,13 +6,15 @@ const app = express()
 
 // req - request , res - response
 
-app.get('/tasks', function (req, res) {
-  res.send('Hello World!')
+app.get('/tasksURL', function (req, res) {
+  res.json({
+    message: 'Your API works!',
+  })
 });
 
 module.exports.tasks = serverless(app);
 
-//               the above .tasks needs to match our function in our .yml file 
+//        the above .tasks needs to match our function in our .yml file 
 
 
 // module.exports.tasks = async event => {
