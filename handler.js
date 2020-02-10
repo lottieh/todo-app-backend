@@ -8,7 +8,7 @@ const app = express()
 
 app.get('/tasksURL', function (req, res) {
   res.json({
-    message: 'Your API works!',
+    message: { id: uuidv4(), description: 'Write CV', Date: 0, Completed: false, important: false },
   })
 });
 module.exports.tasks = serverless(app);
