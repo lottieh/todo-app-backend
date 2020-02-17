@@ -10,8 +10,20 @@ functions:
   tasksAWS:
     handler: handler.tasks
     events:
-     - http:
+      - http:
          path: tasksURL
          method: get
+         cors: true
+      - http:
+         path: tasksURL/{taskId}
+         method: put
+         cors: true
+      - http:
+         path: tasksURL
+         method: post
+         cors: true
+      - http:
+         path: tasksURL/{taskId}
+         method: delete
          cors: true
 
