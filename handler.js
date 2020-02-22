@@ -1,22 +1,32 @@
 'use strict';
 
 const serverless = require('serverless-http');
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const mysql =require ('mysql');
 
+const connection = mysql.createConnection({
+  host : 'XXXX',
+  user : 'XXXX',
+  password : 'XXX',
+  database : 'XXXX'
+});
 
 // req - request , res - response
 //retrieve tasks 
 app.get('/tasksURL', function (req, res) {
-  const yourTasks = [
-    { id: 1, description: 'Write CV', Completed: false, important: false },
-    { id: 2, description: 'Learn to Code', Completed: false, important: false },
-    { id: 3, description: 'Find a Flat', Completed: false, important: false },
-    { id: 4, description: 'Test it', Completed: true, important: false }
-
-  ]
-  res.json({
-    tasks: yourTasks
+  connection.query('SELECT * FROM `tasks` WHERE `userId` = "1"', function (error, results, fields) {
+    // error will be an Error if one occurred during the query
+    if(error) {
+      console.error("Your query had a problem with fetching tasks", error);
+      res.status(500).json({errorMessage: error});
+    }
+    else {
+      // Query was successful
+      res.json({
+        tasks: results
+      });
+    }
   });
 });
 
