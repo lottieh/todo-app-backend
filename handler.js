@@ -3,7 +3,7 @@
 const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
-const mysql =require ('mysql');
+const mysql = require ('mysql');
 
 const connection = mysql.createConnection({
   host : process.env.DB_HOST,
@@ -31,6 +31,11 @@ app.get('/tasksURL', function (req, res) {
 });
 
 app.post('/tasksURL', function (req, res) {
+    // Accept information from the client
+  // about what task is being created
+  // Take that information and pre-populate an SQL INSERT statement
+  // Execute the statement
+   // Return to the client information about the task that has been created
     res.json({
     message: 'Your Post works'
   });
