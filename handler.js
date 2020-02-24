@@ -3,13 +3,14 @@
 const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
-const mysql = require ('mysql');
+app.use(express.json());
+const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host : process.env.DB_HOST,
-  user : process.env.DB_USER ,
-  password : process.env.DB_PASSWORD ,
-  database : process.env.DB_SCHEMA
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_SCHEMA
 });
 
 // req - request , res - response
@@ -17,9 +18,9 @@ const connection = mysql.createConnection({
 app.get('/tasksURL', function (req, res) {
   connection.query('SELECT * FROM `tasks` WHERE `userId` = "1"', function (error, results, fields) {
     // error will be an Error if one occurred during the query
-    if(error) {
+    if (error) {
       console.error("Your query had a problem with fetching tasks", error);
-      res.status(500).json({errorMessage: error});
+      res.status(500).json({ errorMessage: error });
     }
     else {
       // Query was successful
@@ -31,25 +32,35 @@ app.get('/tasksURL', function (req, res) {
 });
 
 app.post('/tasksURL', function (req, res) {
-    // Accept information from the client
+  // Accept information from the client
   // about what task is being created
+  const taskToInsert = req.body;
   // Take that information and pre-populate an SQL INSERT statement
   // Execute the statement
-   // Return to the client information about the task that has been created
-    res.json({
-    message: 'Your Post works'
-  });
+  connection.query('INSERT INTO `tasks` SET ?', taskToInsert, function (error, results, fields) {
+    // error will be an Error if one occurred during the query
+    if (error) {
+      console.error("Your query had a problem with adding tasks", error);
+      res.status(500).json({ errorMessage: error });
+    }
+    else {
+      // Return to the client information about the task that has been created
+      res.json({
+        task: taskToInsert
+      });
+    }
+  })
 });
 
 app.put('/tasksURL/:taskId', function (req, res) {
-  
+
   res.json({
     message: 'Your Put works'
   });
 });
 
 app.delete('/tasksURL/:taskId', function (req, res) {
- 
+
   res.json({
     message: 'Your Delete works'
   });
