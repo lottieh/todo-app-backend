@@ -51,45 +51,42 @@ app.post('/tasksURL', function (req, res) {
 });
 
 app.put('/tasksURL/:taskId', function (req, res) {
-//take the task to edit
-const taskToEdit = req.params.taskId;
+  //take the task to edit
+  connection.query(' UPDATE `tasks` SET `description` = ?, `completed` = ?  WHERE `taskId` = ?', [req.body.description, req.body.completed, req.body.taskId], function (error, results, fields) {
+    // error will be an Error if one occurred during the query
+    if (error) {
+      console.error("Your query had a problem with adding tasks", error);
+      res.status(500).json({ errorMessage: error });
+    }
+    else {
+      res.json({
 
-connection.query('UPDATE `tasks` SET `description` WHERE `taskId` = ?', taskToEdit, function (error, results, fields) {
-  // error will be an Error if one occurred during the query
-  if (error) {
-    console.error("Your query had a problem with adding tasks", error);
-    res.status(500).json({ errorMessage: error });
-  }
-  else {
-    // Output the task that has been created
-    //make update
-//save edit
-
-  res.json({
-    message: 'Your Put works'
-  });
-}})});
+        message: 'Your task has been edited'
+      });
+    }
+  })
+});
 
 app.delete('/tasksURL/:taskId', function (req, res) {
 
-   // work out which task needs deleting
-   const taskToDelete = req.params.taskId;
-   // Run DELETE SQL command
-   connection.query('DELETE FROM `tasks` WHERE `taskId` = ?', taskToDelete, function (error, results, fields) {
-     if(error) {
-       console.error("Your query had a problem with deleting your task", error);
-       res.status(500).json({errorMessage: error});
-     }
-     else {
-       // Return to client info about task that has been deleted
-       res.json({
-         deletedTask: taskToDelete,
-         message: "The above task was deleted"
-       });
-     }
-   })
- });
-  
+  // work out which task needs deleting
+  const taskToDelete = req.params.taskId;
+  // Run DELETE SQL command
+  connection.query('DELETE FROM `tasks` WHERE `taskId` = ?', taskToDelete, function (error, results, fields) {
+    if (error) {
+      console.error("Your query had a problem with deleting your task", error);
+      res.status(500).json({ errorMessage: error });
+    }
+    else {
+      // Return to client info about task that has been deleted
+      res.json({
+        deletedTask: taskToDelete,
+        message: "The above task was deleted"
+      });
+    }
+  })
+});
+
 
 
 module.exports.tasks = serverless(app);
