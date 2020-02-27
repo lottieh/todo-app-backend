@@ -4,6 +4,8 @@ const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
 app.use(express.json());
+const cors = require('cors');
+app.use(cors);
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
@@ -60,7 +62,6 @@ app.put('/tasksURL/:taskId', function (req, res) {
     }
     else {
       res.json({
-
         message: 'Your task has been edited'
       });
     }
