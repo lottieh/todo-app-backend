@@ -2,11 +2,11 @@
 
 const serverless = require('serverless-http');
 const express = require('express');
+const mysql = require('mysql');
 const app = express();
 app.use(express.json());
 const cors = require('cors');
-app.use(cors);
-const mysql = require('mysql');
+app.use(cors());
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
