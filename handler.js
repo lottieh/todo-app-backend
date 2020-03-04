@@ -54,7 +54,7 @@ app.post('/tasksURL', function (req, res) {
 
 app.put('/tasksURL/:taskId', function (req, res) {
   //take the task to edit
-  connection.query(' UPDATE `tasks` SET `description` = ?, `completed` = ?  WHERE `taskId` = ?', [req.body.description, req.body.completed, req.body.taskId], function (error, results, fields) {
+  connection.query(' UPDATE `tasks` SET `description` = ?, `completed` = ?, `important` = ?  WHERE `taskId` = ?', [req.body.description, req.body.completed, req.body.important, req.body.taskId], function (error, results, fields) {
     // error will be an Error if one occurred during the query
     if (error) {
       console.error("Your query had a problem with editing tasks", error);
