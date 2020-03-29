@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
 // req - request , res - response
 //retrieve tasks 
 app.get('/tasksURL', function (req, res) {
-  connection.query('SELECT * FROM `tasks` WHERE `userId` = "1"', function (error, results, fields) {
+  connection.query('SELECT * FROM `tasks` WHERE `userId` = "1"',req.body.completed, function (error, results, fields) {
     // error will be an Error if one occurred during the query
     if (error) {
       console.error("Your query had a problem with fetching tasks", error);
